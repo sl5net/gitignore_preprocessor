@@ -85,7 +85,7 @@ main(fileContent, doShowRexExAsComment := true, limit_of_endLess_to := 10){
 		
 		
 		if(RegExMatch(thisLine,"((\\d|\\w|i\)\\w)\+)",matchs)){
-			thisLineBackup := thisLine			
+			thisLineBackup := thisLine
 			if(matchs2 == "\d")
 				replaceText := "[0-9]"
 			else if(matchs2 == "i)\w")
