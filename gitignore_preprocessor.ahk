@@ -133,10 +133,8 @@ main(fileContent, doShowRexExAsComment := true, limit_of_endLess_to := 10){
 				thisLine .= StrReplace(thisLineBackup,matchs1, StringRepeat("[0-9]", matchs2 + A_Index -1 ) ) "`n"
 		}
 		thisLine := rTrim(thisLine," `t`r`n")
-		; thisLine := RegExReplace(thisLine,"\\d", "[[:alnum:]]") ""
 		if(thisLineBackup){ ; then changes happend
 			newString := rtrim(main(newString, doShowRexExAsComment, limit_of_endLess_to) ," `t`r`n") "`n"
-			;Sleep,100
 		}
 		newString .= ((doShowRexExAsComment && thisLineBackup)? "# " thisLineBackup "`n" : "")
 		; newString .= RegExReplace(thisLine,"^(\!(\w[\w_]*)\/\*\*)$", "!$2`n$1") "`n"
