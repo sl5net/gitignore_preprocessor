@@ -93,7 +93,7 @@ main(fileContent, doShowRexExAsComment := true, limit_of_endLess_to := 10){
 			else
 				replaceText := "[a-z]"
 			; thisLine := StrReplace(thisLine,matchs1, StringRepeat(replaceText, limit_of_endLess_to) ) 
-			thisLine := ""
+			thisLine := "# + is limited to " limit_of_endLess_to " (see config at script top)`n"
 			Loop,% limit_of_endLess_to
 				thisLine .= StrReplace(thisLineBackup,matchs1, StringRepeat(replaceText, A_Index ) ) "`n"
 		}
