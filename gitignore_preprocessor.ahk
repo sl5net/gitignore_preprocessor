@@ -65,7 +65,7 @@ main(fileContent, doShowRexExAsComment := true, limit_of_endLess_to := 10){
 		thisLine := A_LoopField
 		
 		thisLineBackup := ""
-		if(RegExMatch(thisLine,"^[ ]*#")){
+		if(!thisLine || RegExMatch(thisLine,"^\s*\#")){
 			newString .= thisLine "`n"
 			Continue
 		}
@@ -110,7 +110,7 @@ main(fileContent, doShowRexExAsComment := true, limit_of_endLess_to := 10){
 			thisLineBackup := thisLine
 			thisLine := StrReplace(thisLine,matchs1, StringRepeat("[a-z]", matchs2) ) 
 		}
-		if(RegExMatch(thisLine,"^[^#]*((\\d|\\w|i\)\\w)\{(\d+),(\d+)\})",matchs)){
+		if(RegExMatch(thisLine,"^[^\#]*((\\d|\\w|i\)\\w)\{(\d+),(\d+)\})",matchs)){
 			thisLineBackup := thisLine
 			if(matchs2 == "\d")
 				replaceText := "[0-9]"
@@ -125,16 +125,10 @@ main(fileContent, doShowRexExAsComment := true, limit_of_endLess_to := 10){
 			; MsgBox, %count% `n %matchs1% `n%thisLine% `n`n (line:%A_LineNumber%) `n`n`n The end of the file has been reached or there was a problem
 			
 		}
-		if(0 || RegExMatch(thisLine,"(\\w\{(\d+),(\d+)\})",matchs)){
-			thisLineBackup := thisLine
-			thisLine := ""
-			count := matchs3 - matchs2 + 1
-			Loop,% count
-				thisLine .= StrReplace(thisLineBackup,matchs1, StringRepeat("[0-9]", matchs2 + A_Index -1 ) ) "`n"
-		}
-		thisLine := rTrim(thisLine," `t`r`n")
+		; newString := rTrim(thisLine," `t`r`n")
 		if(thisLineBackup){ ; then changes happend
-			newString := rtrim(main(newString, doShowRexExAsComment, limit_of_endLess_to) ," `t`r`n") "`n"
+			thisLine := rtrim(main(thisLine, doShowRexExAsComment, limit_of_endLess_to) ," `t`r`n") 
+			; MsgBox,paused >>%newString%<< >>%thisLineBackup%<<
 		}
 		newString .= ((doShowRexExAsComment && thisLineBackup)? "# " thisLineBackup "`n" : "")
 		; newString .= RegExReplace(thisLine,"^(\!(\w[\w_]*)\/\*\*)$", "!$2`n$1") "`n"
