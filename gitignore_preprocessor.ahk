@@ -1,24 +1,88 @@
 ﻿#SingleInstance,Force
 
 prepareFirstLine_andBackup_gitignore()
-
+newString := main()
+save_gitignore(newString)
 
 MsgBox, `n`n (line:%A_LineNumber%) `n`n`n The end of the file has been reached or there was a problem
 Reload
 
-
-Loop,9999
-{
-	FileReadLine, thisLine , .gitignore, %A_Index%
-	if ErrorLevel
-		break
+/*
+	from https://www.fossil-scm.org/xfer/doc/trunk/www/globs.md :
+	*	Matches any sequence of zero or more characters
+	?	Matches exactly one character
+	[...]	Matches one character from the enclosed list of characters
+	[^...]	Matches one character not in the enclosed list
 	
-	newString .= RegExReplace(thisLine,"^(\!(\w+)\/\*\*)$", "!$2`n$1") "`n"
+	[a-d]	Matches any one of a, b, c, or d but not ä
+	[^a-d]	Matches exactly one character other than a, b, c, or d
+	[0-9a-fA-F]	Matches exactly one hexadecimal digit
+	[a-]	Matches either a or -
+	[][]	Matches either ] or [
+	[^]]	Matches exactly one character other than ]
+	[]^]	Matches either ] or ^
+	[^-]	Matches exactly one character other than 
+	
+	from https://facelessuser.github.io/wcmatch/glob/:
+	[[:alnum:]] POSIX style 
+	
+	from https://facelessuser.github.io/wcmatch/glob/#syntax:
+	?(pattern_list)	The pattern matches if zero or one occurrences of any of the patterns in the pattern_list match the input string.
+	
+	+(pattern_list)	The pattern matches if one or more occurrences of any of the patterns in the pattern_list match the input string.
+*/
+
+main(){
+	while(A_Index < 99999){
+		FileReadLine, thisLine , .gitignore, %A_Index%
+		if ErrorLevel
+			break
+		
+		if(RegExMatch(thisLine,"^[ ]*#")){
+			newString .= thisLine "`n"
+			Continue
+		}
+		if(RegExMatch(thisLine,"\\\w")){
+			; MsgBox, regex found here (if you ussing \letter ): `n`n %thisLine% `n`n (line:%A_LineNumber%) `n`n`n The end of the file has been reached or there was a problem
+		}
+		if(RegExMatch(thisLine,"\\d(\*|\+)")){
+			MsgBox, \d(\*|\+) not suported at the moment. you could us \d{1,9} `n`n %thisLine% `n`n (line:%A_LineNumber%) `n`n`n The end of the file has been reached or there was a problem
+		}
+		
+		; thisLine := RegExReplace(thisLine,"\\d", "[0-9]") ""
+		; thisLine := RegExReplace(thisLine,"\\d", "[0-9]") ""
+		;/¯¯¯¯ optional ¯¯ 190311152138 ¯¯ 11.03.2019 15:21:38 ¯¯\
+		; optional ????? is not working
+		; thisLine := RegExReplace(thisLine,"\\d(\+)", "[[:alnum:]]" StringRepeat("[0-9]?", 20) ) 
+		; thisLine := RegExReplace(thisLine,"\\d(\*)", StringRepeat("[0-9]?", 20) )
+		; thisLine := RegExReplace(thisLine,"\\d(\*|\+)", "[0-9][!a-z][0-9]" )
+		;\____ optional __ 190311152146 __ 11.03.2019 15:21:46 __/
+		; thisLine := RegExReplace(thisLine,"\\d\{(\d)\}", StringRepeat("[0-9]?", "$1") ) 
+		if(RegExMatch(thisLine,"(\\d{(\d+)})",matchs))
+			thisLine := StrReplace(thisLine,matchs1, StringRepeat("[0-9]", matchs2) ) 
+		if(RegExMatch(thisLine,"(\\d\{(\d+),(\d+)\})",matchs)){
+			thisLineBackup := thisLine
+			thisLine := ""
+			count := matchs3 - matchs2 + 1
+			Loop,% count
+				thisLine .= StrReplace(thisLineBackup,matchs1, StringRepeat("[0-9]", matchs2 + A_Index -1 ) ) "`n"
+			; MsgBox, %count% `n %matchs1% `n%thisLine% `n`n (line:%A_LineNumber%) `n`n`n The end of the file has been reached or there was a problem
+		}
+		thisLine := RegExReplace(thisLine,"\\d", "[[:alnum:]]") ""
+		newString .= RegExReplace(thisLine,"^(\!(\w+)\/\*\*)$", "!$2`n$1") "`n"
+	}
+	return newString
+	Clipboard := newString
+	MsgBox, '%newString%' = newString `n`n (line:%A_LineNumber%) `n`n`n The end of the file has been reached or there was a problem
+	Reload
 }
-MsgBox, '%newString%' = newString `n`n (line:%A_LineNumber%) `n`n`n The end of the file has been reached or there was a problem
-Reload
 
-
+StringRepeat( Str, Count ) { ; By SKAN / CD:12-04-2011
+; www.autohotkey.com/community/viewtopic.php?p=435990#435990
+	VarSetCapacity( S, Count * ( A_IsUnicode ? 2:1 ), 1 )
+	StringReplace, S, S, % SubStr( S,1,1 ), %Str%, All
+	Return SubStr( S, 1, Count * StrLen(Str) )
+}
 
 ;/¯¯¯¯ prepareAndBackup_gitignore ¯¯ 190311141110 ¯¯ 11.03.2019 14:11:10 ¯¯\
 prepareFirstLine_andBackup_gitignore(){
@@ -35,3 +99,21 @@ prepareFirstLine_andBackup_gitignore(){
 	}
 }
 ;\____ prepareAndBackup_gitignore __ 190311141114 __ 11.03.2019 14:11:14 __/
+
+
+
+
+;/¯¯¯¯ save_gitignore ¯¯ 190311160300 ¯¯ 11.03.2019 16:03:00 ¯¯\
+save_gitignore(content){
+	tempFileAddress := ".gitignore" A_TickCount ".temp." A_ThisFunc ".txt"
+	FileAppend, % content, % tempFileAddress
+	FileCopy,% tempFileAddress, .gitignore, 1
+	Sleep,100
+	FileDelete, % tempFileAddress
+}
+;\____ save_gitignore __ 190311160307 __ 11.03.2019 16:03:07 __/
+
+
+
+
+
