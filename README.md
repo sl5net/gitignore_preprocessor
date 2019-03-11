@@ -39,8 +39,15 @@ hello\d{1,3}world
 # ignore folder, subfolder, and all files there:
 gitignore_backup/**/*
 
+
 # ignore folder, subfolder, and all files there:
+gitignore_backup/**/*
+
+# whitelist folder, subfolder, and all files there:
 !gitignore_backup/**/*
+
+# ignore (again) folder, subfolder, and all files there:
+gitignore_backup/**/*
 
 # git ignorecase option:
 

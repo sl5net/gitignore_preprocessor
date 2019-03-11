@@ -28,9 +28,6 @@ hello\d{1,3}world
 # ignore for eg maybe 3 digits:
 [0-9][!a-z][0-9]
 
-# ignore txt-files
-*.txt
-
 # ignore folder, subfolder, and all files there:
 gitignore_backup/**/*
 
