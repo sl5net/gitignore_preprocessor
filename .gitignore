@@ -7,11 +7,9 @@
 [0-9][0-9]
 [0-9][0-9][0-9]
 
-
 # ignore amount of 2-3 digits:
 [0-9][0-9]
 [0-9][0-9][0-9]
-
 
 # ignore for eg 3 digits:
 [0-9][!a-z][0-9]

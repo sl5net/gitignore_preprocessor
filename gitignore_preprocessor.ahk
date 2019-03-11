@@ -86,6 +86,7 @@ main(){
 				thisLine .= StrReplace(thisLineBackup,matchs1, StringRepeat("[0-9]", matchs2 + A_Index -1 ) ) "`n"
 			; MsgBox, %count% `n %matchs1% `n%thisLine% `n`n (line:%A_LineNumber%) `n`n`n The end of the file has been reached or there was a problem
 		}
+		thisLine := rTrim(thisLine," `t`r`n")
 		thisLine := RegExReplace(thisLine,"\\d", "[[:alnum:]]") ""
 		newString .= RegExReplace(thisLine,"^(\!(\w+)\/\*\*)$", "!$2`n$1") "`n"
 	}
