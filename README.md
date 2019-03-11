@@ -36,3 +36,16 @@ hello\d{1,3}world
 
 # ignore for eg 3 digits:
 [0-9][!a-z][0-9]
+
+
+# git ignorecase option:
+
+Since version 1.5.6 there is an ignorecase option available in the [core] section of .git/config
+
+To change it for just one repo, from that folder run:
+
+git config core.ignorecase false
+
+To change it globally:
+
+git config --global core.ignorecase false
