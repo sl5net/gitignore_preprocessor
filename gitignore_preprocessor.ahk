@@ -88,7 +88,10 @@ main(doShowRexExAsComment := true, limit_of_endLess_to := 10){
 				replaceText := "[a-zA-Z]"
 			else
 				replaceText := "[a-z]"
-			thisLine := StrReplace(thisLine,matchs1, StringRepeat(replaceText, limit_of_endLess_to) ) 
+			; thisLine := StrReplace(thisLine,matchs1, StringRepeat(replaceText, limit_of_endLess_to) ) 
+			thisLine := ""
+			Loop,% limit_of_endLess_to
+				thisLine .= StrReplace(thisLineBackup,matchs1, StringRepeat(replaceText, A_Index ) ) "`n"
 		}
 		
 		if(RegExMatch(thisLine,"(\\d{(\d+)})",matchs)){
