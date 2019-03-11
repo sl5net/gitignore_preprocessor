@@ -78,13 +78,26 @@ main(){
 		; thisLine := RegExReplace(thisLine,"\\d\{(\d)\}", StringRepeat("[0-9]?", "$1") ) 
 		if(RegExMatch(thisLine,"(\\d{(\d+)})",matchs))
 			thisLine := StrReplace(thisLine,matchs1, StringRepeat("[0-9]", matchs2) ) 
-		if(RegExMatch(thisLine,"(\\d\{(\d+),(\d+)\})",matchs)){
+		if(RegExMatch(thisLine,"(\\w{(\d+)})",matchs))
+			thisLine := StrReplace(thisLine,matchs1, StringRepeat("[a-zA-Z]", matchs2) ) 
+		if(RegExMatch(thisLine,"((\\d|\\w)\{(\d+),(\d+)\})",matchs)){
+			if(matchs2 == "\d")
+				replaceText := "[0-9]"
+			else
+				replaceText := "[a-zA-Z]"
+			thisLineBackup := thisLine
+			thisLine := ""
+			count := matchs4 - matchs3 + 1
+			Loop,% count
+				thisLine .= StrReplace(thisLineBackup,matchs1, StringRepeat(replaceText, matchs3 + A_Index -1 ) ) "`n"
+			; MsgBox, %count% `n %matchs1% `n%thisLine% `n`n (line:%A_LineNumber%) `n`n`n The end of the file has been reached or there was a problem
+		}
+		if(0 || RegExMatch(thisLine,"(\\w\{(\d+),(\d+)\})",matchs)){
 			thisLineBackup := thisLine
 			thisLine := ""
 			count := matchs3 - matchs2 + 1
 			Loop,% count
 				thisLine .= StrReplace(thisLineBackup,matchs1, StringRepeat("[0-9]", matchs2 + A_Index -1 ) ) "`n"
-			; MsgBox, %count% `n %matchs1% `n%thisLine% `n`n (line:%A_LineNumber%) `n`n`n The end of the file has been reached or there was a problem
 		}
 		thisLine := rTrim(thisLine," `t`r`n")
 		thisLine := RegExReplace(thisLine,"\\d", "[[:alnum:]]") ""
