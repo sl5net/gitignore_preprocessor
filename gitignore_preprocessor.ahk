@@ -45,7 +45,7 @@ Reload
 	^- really? i tried. not work for me. 19-03-11_16-43
 */
 
-main(){
+main(doShowRexExAsComment := true){
 	if(!FileExist(".gitignore_RAW"))
 	{
 		MsgBox, ERROR: NotExist, .gitignore_RAW `n`n %thisLine% `n`n (line:%A_LineNumber%) `n`n`n The end of the file has been reached or there was a problem
@@ -56,6 +56,7 @@ main(){
 		if ErrorLevel
 			break
 		
+		thisLineBackup := ""
 		if(RegExMatch(thisLine,"^[ ]*#")){
 			newString .= thisLine "`n"
 			Continue
@@ -76,25 +77,32 @@ main(){
 		; thisLine := RegExReplace(thisLine,"\\d(\*|\+)", "[0-9][!a-z][0-9]" )
 		;\____ optional __ 190311152146 __ 11.03.2019 15:21:46 __/
 		; thisLine := RegExReplace(thisLine,"\\d\{(\d)\}", StringRepeat("[0-9]?", "$1") ) 
-		if(RegExMatch(thisLine,"(\\d{(\d+)})",matchs))
+		if(RegExMatch(thisLine,"(\\d{(\d+)})",matchs)){
+			thisLineBackup := thisLine			
 			thisLine := StrReplace(thisLine,matchs1, StringRepeat("[0-9]", matchs2) ) 
-		if(RegExMatch(thisLine,"(i\)\\w{(\d+)})",matchs))
+		}
+		if(RegExMatch(thisLine,"(i\)\\w{(\d+)})",matchs)){
+			thisLineBackup := thisLine
 			thisLine := StrReplace(thisLine,matchs1, StringRepeat("[a-zA-Z]", matchs2) ) 
-		if(RegExMatch(thisLine,"(\\w{(\d+)})",matchs))
+		}
+		if(RegExMatch(thisLine,"(\\w{(\d+)})",matchs)){
+			thisLineBackup := thisLine
 			thisLine := StrReplace(thisLine,matchs1, StringRepeat("[a-z]", matchs2) ) 
-		if(RegExMatch(thisLine,"((\\d|\\w|i\)\\w)\{(\d+),(\d+)\})",matchs)){
+		}
+		if(RegExMatch(thisLine,"^[^#]*((\\d|\\w|i\)\\w)\{(\d+),(\d+)\})",matchs)){
+			thisLineBackup := thisLine
 			if(matchs2 == "\d")
 				replaceText := "[0-9]"
 			else if(matchs2 == "i)\w")
 				replaceText := "[a-zA-Z]"
 			else
 				replaceText := "[a-z]"
-			thisLineBackup := thisLine
 			thisLine := ""
 			count := matchs4 - matchs3 + 1
 			Loop,% count
 				thisLine .= StrReplace(thisLineBackup,matchs1, StringRepeat(replaceText, matchs3 + A_Index -1 ) ) "`n"
 			; MsgBox, %count% `n %matchs1% `n%thisLine% `n`n (line:%A_LineNumber%) `n`n`n The end of the file has been reached or there was a problem
+			
 		}
 		if(0 || RegExMatch(thisLine,"(\\w\{(\d+),(\d+)\})",matchs)){
 			thisLineBackup := thisLine
@@ -105,7 +113,7 @@ main(){
 		}
 		thisLine := rTrim(thisLine," `t`r`n")
 		thisLine := RegExReplace(thisLine,"\\d", "[[:alnum:]]") ""
-		newString .= RegExReplace(thisLine,"^(\!(\w+)\/\*\*)$", "!$2`n$1") "`n"
+		newString .= ((doShowRexExAsComment && thisLineBackup)? "# " thisLineBackup "`n" : "") RegExReplace(thisLine,"^(\!(\w+)\/\*\*)$", "!$2`n$1") "`n"
 	}
 	return newString
 	Clipboard := newString
