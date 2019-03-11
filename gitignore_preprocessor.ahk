@@ -78,13 +78,17 @@ main(){
 		; thisLine := RegExReplace(thisLine,"\\d\{(\d)\}", StringRepeat("[0-9]?", "$1") ) 
 		if(RegExMatch(thisLine,"(\\d{(\d+)})",matchs))
 			thisLine := StrReplace(thisLine,matchs1, StringRepeat("[0-9]", matchs2) ) 
-		if(RegExMatch(thisLine,"(\\w{(\d+)})",matchs))
+		if(RegExMatch(thisLine,"(i\)\\w{(\d+)})",matchs))
 			thisLine := StrReplace(thisLine,matchs1, StringRepeat("[a-zA-Z]", matchs2) ) 
-		if(RegExMatch(thisLine,"((\\d|\\w)\{(\d+),(\d+)\})",matchs)){
+		if(RegExMatch(thisLine,"(\\w{(\d+)})",matchs))
+			thisLine := StrReplace(thisLine,matchs1, StringRepeat("[a-z]", matchs2) ) 
+		if(RegExMatch(thisLine,"((\\d|\\w|i\)\\w)\{(\d+),(\d+)\})",matchs)){
 			if(matchs2 == "\d")
 				replaceText := "[0-9]"
-			else
+			else if(matchs2 == "i)\w")
 				replaceText := "[a-zA-Z]"
+			else
+				replaceText := "[a-z]"
 			thisLineBackup := thisLine
 			thisLine := ""
 			count := matchs4 - matchs3 + 1

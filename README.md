@@ -8,11 +8,19 @@ AutoHotkey is a free, open-source scripting language for Windows that allows use
 
 # examples for using preprocessor for .gitignore :
 
+
+
 # ignore 3 digits:
 \d{3}
 
-# ignore 3 words:
+# ignore 3 words case insensitive:
+i)\w{3}
+
+# ignore 3 words lowercase:
 \w{3}
+
+# ignore words lowercase and then case insensitive:
+\w{1}i)\w{1}
 
 # ignore amount of 1-3 digits:
 \d{1,3}
@@ -26,3 +34,5 @@ hello\d{1,3}world
 # ignore amount of 2-3 digits:
 \d{2,3}
 
+# ignore for eg 3 digits:
+[0-9][!a-z][0-9]

@@ -2,8 +2,15 @@
 # ignore 3 digits:
 [0-9][0-9][0-9]
 
-# ignore 3 words:
+# ignore 3 words case insensitive:
 [a-zA-Z][a-zA-Z][a-zA-Z]
+
+# ignore 3 words lowercase:
+[a-z][a-z][a-z]
+
+# ignore words lowercase and then case insensitive:
+[a-z][a-zA-Z]
+
 
 # ignore amount of 1-3 digits:
 [0-9]
@@ -11,10 +18,10 @@
 [0-9][0-9][0-9]
 
 # ignore amount of 1-4 letters:
-[a-zA-Z]
-[a-zA-Z][a-zA-Z]
-[a-zA-Z][a-zA-Z][a-zA-Z]
-[a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z]
+[a-z]
+[a-z][a-z]
+[a-z][a-z][a-z]
+[a-z][a-z][a-z][a-z]
 
 # same with text around:
 hello[0-9]world
