@@ -58,7 +58,15 @@ hello[0-9][0-9][0-9]world
 # ignore txt-files
 *.txt
 
-# ignore folder
+# ignore folder, subfolder, and all files there:
+gitignore_backup
+gitignore_backup/**/*
+
+# whitelist folder, subfolder, and all files there:
+!gitignore_backup
+!gitignore_backup/**/*
+
+# ignore (again) folder, subfolder, and all files there:
 gitignore_backup
 gitignore_backup/**/*
 
