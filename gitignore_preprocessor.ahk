@@ -132,7 +132,9 @@ main(fileContent, doShowRexExAsComment := true, limit_of_endLess_to := 10){
 		}
 		newString .= ((doShowRexExAsComment && thisLineBackup)? "# " thisLineBackup "`n" : "")
 		; newString .= RegExReplace(thisLine,"^(\!(\w[\w_]*)\/\*\*)$", "!$2`n$1") "`n"
-		newString .= RegExReplace(thisLine,"^((\!?\w[\w_]*)\/\*\*)", "$2`n$1") "`n"
+		; folderRegEx := "[^\\\/\?\*\""\>\<\:\|]"
+		folderRegEx := "[^\/\?\*]"
+		newString .= RegExReplace(thisLine,"^((\!?" folderRegEx "*)\/\*\*)", "$2`n$1") "`n"
 	}
 	return newString
 	Clipboard := newString
