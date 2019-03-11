@@ -13,7 +13,7 @@ AutoHotkey is a free, open-source scripting language for Windows that allows use
 
 # examples for using preprocessor for .gitignore :
 
-edit .gitignore_RAW (not .gitignore)
+after first start, edit .gitignore_RAW (not .gitignore)
 
 
 # ignore 10 digits (max you could config in the script):
