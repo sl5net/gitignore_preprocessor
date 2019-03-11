@@ -43,6 +43,9 @@ hello\d{1,3}world
 # ignore amount of 2-3 digits:
 \d{2,3}
 
+# or a combination:
+\d{1,2}\w{1,2}
+
 # ignore folder, subfolder, and all files there:
 gitignore_backup/**/*
 
