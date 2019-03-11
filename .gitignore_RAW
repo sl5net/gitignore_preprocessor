@@ -25,12 +25,14 @@ hello\d{1,3}world
 # ignore amount of 2-3 digits:
 \d{2,3}
 
-# ignore for eg 3 digits:
+# ignore for eg maybe 3 digits:
 [0-9][!a-z][0-9]
 
+# ignore txt-files
 *.txt
 
-gitignore_backup
+# ignore folder, subfolder, and all files there:
+gitignore_backup/**/*
 
 # ignore all starting with numbers:
 # [[:alnum:]]

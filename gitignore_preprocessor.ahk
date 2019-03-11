@@ -130,7 +130,9 @@ main(doShowRexExAsComment := true, limit_of_endLess_to := 10){
 		}
 		thisLine := rTrim(thisLine," `t`r`n")
 		thisLine := RegExReplace(thisLine,"\\d", "[[:alnum:]]") ""
-		newString .= ((doShowRexExAsComment && thisLineBackup)? "# " thisLineBackup "`n" : "") RegExReplace(thisLine,"^(\!(\w+)\/\*\*)$", "!$2`n$1") "`n"
+		newString .= ((doShowRexExAsComment && thisLineBackup)? "# " thisLineBackup "`n" : "")
+		; newString .= RegExReplace(thisLine,"^(\!(\w[\w_]*)\/\*\*)$", "!$2`n$1") "`n"
+		newString .= RegExReplace(thisLine,"^((\w[\w_]*)\/\*\*)", "$2`n$1") "`n"
 	}
 	return newString
 	Clipboard := newString

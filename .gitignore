@@ -52,12 +52,15 @@ hello[0-9][0-9][0-9]world
 [0-9][0-9]
 [0-9][0-9][0-9]
 
-# ignore for eg 3 digits:
+# ignore for eg maybe 3 digits:
 [0-9][!a-z][0-9]
 
+# ignore txt-files
 *.txt
 
+# ignore folder
 gitignore_backup
+gitignore_backup/**/*
 
 # ignore all starting with numbers:
 # [[:alnum:]]
