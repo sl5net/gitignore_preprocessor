@@ -1,5 +1,5 @@
-# ignore 9 digits:
-\d{9}
+# ignore 3 digits:
+\d{3}
 
 # ignore amount of 1-3 digits:
 \d{1,3}
@@ -11,6 +11,9 @@
 [0-9][!a-z][0-9]
 
 *.txt
+
+gitignore_backup
+
 # ignore all starting with numbers:
 # [[:alnum:]]
 # not easys to implement:
