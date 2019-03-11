@@ -9,6 +9,8 @@ AutoHotkey is a free, open-source scripting language for Windows that allows use
 # examples for using preprocessor for .gitignore :
 
 
+# ignore 10 digits (max you could config in the script):
+\d+
 
 # ignore 3 digits:
 \d{3}

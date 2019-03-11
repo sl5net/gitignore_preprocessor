@@ -1,3 +1,6 @@
+# ignore 10 digits (max you could config in the script):
+\d+
+
 # ignore 3 digits:
 \d{3}
 
