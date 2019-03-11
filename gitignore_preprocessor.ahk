@@ -1,11 +1,12 @@
 ﻿#SingleInstance,Force
 
+ifNotExist_gitignore_RAW()
 prepareFirstLine_andBackup_gitignore()
 newString := main()
 content := backup() ; optional
 save_gitignore(newString)
 
-MsgBox, `n`n (line:%A_LineNumber%) `n`n`n The end of the file has been reached or there was a problem
+MsgBox, `n`n (line:%A_LineNumber%) `n`n`n script finished. reload?
 Reload
 
 /*
@@ -29,13 +30,20 @@ Reload
 	
 	from https://facelessuser.github.io/wcmatch/glob/#syntax:
 	?(pattern_list)	The pattern matches if zero or one occurrences of any of the patterns in the pattern_list match the input string.
+	^- really? i tried. not work for me. 19-03-11_16-43
 	
 	+(pattern_list)	The pattern matches if one or more occurrences of any of the patterns in the pattern_list match the input string.
+	^- really? i tried. not work for me. 19-03-11_16-43
 */
 
 main(){
+	if(!FileExist(".gitignore_RAW"))
+	{
+		MsgBox, ERROR: NotExist, .gitignore_RAW `n`n %thisLine% `n`n (line:%A_LineNumber%) `n`n`n The end of the file has been reached or there was a problem
+		return
+	}
 	while(A_Index < 99999){
-		FileReadLine, thisLine , .gitignore, %A_Index%
+		FileReadLine, thisLine , .gitignore_RAW, %A_Index%
 		if ErrorLevel
 			break
 		
@@ -101,12 +109,21 @@ prepareFirstLine_andBackup_gitignore(){
 }
 ;\____ prepareAndBackup_gitignore __ 190311141114 __ 11.03.2019 14:11:14 __/
 
+ifNotExist_gitignore_RAW(){
+	if(FileExist(".gitignore_RAW"))
+		return
+	FileRead, content , .gitignore
+	FileAppend, % content "`n", .gitignore_RAW
+	return content
+}
+
 backup(){
 	FileRead, content , .gitignore
 	tempFileAddress := ".gitignore" A_TickCount ".temp." A_ThisFunc ".txt"
 	FileAppend, % content "`n", % tempFileAddress	
 	return content
 }
+
 
 
 ;/¯¯¯¯ save_gitignore ¯¯ 190311160300 ¯¯ 11.03.2019 16:03:00 ¯¯\
