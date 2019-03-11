@@ -42,6 +42,8 @@ hello\d{1,3}world
 
 Since version 1.5.6 there is an ignorecase option available in the [core] section of .git/config
 
+But!!: "Maybe it is not possible to override how the OS handles file cases. ... Git checks the correct value of ignorecase only once, and that is when you create the repository." ( https://stackoverflow.com/questions/52369109/git-core-ignorecase-false-in-mac-os-x#comment91683508_52369235 )
+
 To change it for just one repo, from that folder run:
 
 git config core.ignorecase false
