@@ -1,5 +1,6 @@
 # gitignore_preprocessor
-preprocessor for .gitignore file (used by git) for RegEx support and more
+preprocessor for .gitignore file (used by git) for RegEx support and more. 
+ability to mix your globe syntax with some RegEx syntax (see examples below)
 
 written in AutoHotkey. in long term maybe written in nodeJs.
 
