@@ -54,13 +54,22 @@ hello[0-9][0-9][0-9]world
 [0-9][0-9][0-9]
 
 # or a combination:
-# \d{1,2}\w{1,2}
+# \d{1,2}\w{1,5}
 # \d{1,2}[a-z]
 [0-9][a-z]
 [0-9][0-9][a-z]
 # \d{1,2}[a-z][a-z]
 [0-9][a-z][a-z]
 [0-9][0-9][a-z][a-z]
+# \d{1,2}[a-z][a-z][a-z]
+[0-9][a-z][a-z][a-z]
+[0-9][0-9][a-z][a-z][a-z]
+# \d{1,2}[a-z][a-z][a-z][a-z]
+[0-9][a-z][a-z][a-z][a-z]
+[0-9][0-9][a-z][a-z][a-z][a-z]
+# \d{1,2}[a-z][a-z][a-z][a-z][a-z]
+[0-9][a-z][a-z][a-z][a-z][a-z]
+[0-9][0-9][a-z][a-z][a-z][a-z][a-z]
 
 # ignore folder, subfolder, and all files there:
 gitignore_backup

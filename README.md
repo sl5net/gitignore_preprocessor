@@ -59,6 +59,11 @@ gitignore_backup/**/*
 # ignore (again) folder, subfolder, and all files there:
 gitignore_backup/**/*
 
+# preocess to this line. stop at this line (may useful for testing):
+#<<<EXIT
+
+
+
 # git ignorecase option:
 
 Since version 1.5.6 there is an ignorecase option available in the [core] section of .git/config

@@ -1,6 +1,8 @@
 # ignore 10 digits (max you could config in the script):
 hi\d+you
 
+#<<<EXIT
+
 # ignore 3 digits:
 \d{3}
 
@@ -26,7 +28,7 @@ hello\d{1,3}world
 \d{2,3}
 
 # or a combination:
-\d{1,2}\w{1,2}
+\d{1,2}\w{1,5}
 
 # ignore folder, subfolder, and all files there:
 gitignore_backup/**/*

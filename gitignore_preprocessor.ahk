@@ -56,6 +56,9 @@ main(fileContent, doShowRexExAsComment := true, limit_of_endLess_to := 10){
 		MsgBox, ERROR: NotExist, .gitignore_RAW `n`n %thisLine% `n`n (line:%A_LineNumber%) `n`n`n The end of the file has been reached or there was a problem
 		return
 	}
+	
+	lastUsedTracker := {}
+	
 	; while(A_Index < 99999){
 	;FileReadLine, thisLine , .gitignore_RAW, %A_Index%
 	Loop, parse, fileContent, `n, `r  ; Specifying `n prior to `r allows both Windows and Unix files to be parsed.
@@ -67,6 +70,8 @@ main(fileContent, doShowRexExAsComment := true, limit_of_endLess_to := 10){
 		thisLineBackup := ""
 		if(!thisLine || RegExMatch(thisLine,"^\s*\#")){
 			newString .= thisLine "`n"
+			if(rtrim(thisLine) == "#<<<EXIT") ; # preocess to this line. stop at this line (may useful for testing)
+				return newString
 			Continue
 		}
 		if(RegExMatch(thisLine,"\\(d|w)(\*)")){
@@ -130,11 +135,24 @@ main(fileContent, doShowRexExAsComment := true, limit_of_endLess_to := 10){
 			thisLine := rtrim(main(thisLine, doShowRexExAsComment, limit_of_endLess_to) ," `t`r`n") 
 			; MsgBox,paused >>%newString%<< >>%thisLineBackup%<<
 		}
+		;MsgBox,% lastUsedTracker["log2"]
+		;MsgBox, `n`n (line:%A_LineNumber%) `n`n`n The end of the file has been reached or there was a problem ;*[gitignore_preprocessor]
+		lastUsedTracker.Insert(thisLine, A_Index) 
+		
 		newString .= ((doShowRexExAsComment && thisLineBackup)? "# " thisLineBackup "`n" : "")
 		; newString .= RegExReplace(thisLine,"^(\!(\w[\w_]*)\/\*\*)$", "!$2`n$1") "`n"
 		; folderRegEx := "[^\\\/\?\*\""\>\<\:\|]"
 		folderRegEx := "[^\/\?\*]"
-		newString .= RegExReplace(thisLine,"^((\!?" folderRegEx "*)\/\*\*)", "$2`n$1") "`n"
+		if(RegExMatch(thisLine, "^((\!?" folderRegEx "*)\/\*\*)",matchs)){ ; matchs1 is everything. matchs2 first group
+			if(!lastUsedTracker[matchs2]){
+				newString .= matchs2 "`n" thisLine "`n"
+				lastUsedTracker.Insert(matchs2, A_Index - 1) 
+				; MsgBox, %thisLine% `n`n%newString%`n`n  (line:%A_LineNumber%) `n`n`n The end of the file has been reached or there was a problem
+			}else newString .= thisLine "`n"
+		}
+		else newString .= thisLine "`n"
+		; newString .= RegExReplace(thisLine,"^((\!?" folderRegEx "*)\/\*\*)", "$2`n$1") "`n"
+			
 	}
 	return newString
 	Clipboard := newString
