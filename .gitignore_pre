@@ -1,7 +1,7 @@
 # ignore 10 digits (max you could config in the script):
 hi\d+you
 
-#<<<EXIT
+##<<<EXIT
 
 # ignore 3 digits:
 \d{3}

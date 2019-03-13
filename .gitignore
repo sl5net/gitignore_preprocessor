@@ -13,6 +13,8 @@ hi[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]you
 hi[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]you
 hi[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]you
 
+##<<<EXIT
+
 # ignore 3 digits:
 # \d{3}
 [0-9][0-9][0-9]
@@ -80,7 +82,6 @@ gitignore_backup/**/*
 !gitignore_backup/**/*
 
 # ignore (again) folder, subfolder, and all files there:
-gitignore_backup
 gitignore_backup/**/*
 
 
