@@ -6,15 +6,17 @@ written in AutoHotkey. in long term maybe written in nodeJs.
 
 AutoHotkey is a free, open-source scripting language for Windows that allows users to easily create small to complex scripts for all kinds of tasks such as: form fillers, auto-clicking, macros, etc.
 
-# installation:
+# using:
 
 - install AutoHotkey
-- run gitignore_preprocessor.ahk
+- run gitignore_preprocessor.ahk (it copies .gitignore to .gitignore_pre)
+- edit .gitignore_pre
+- run gitignore_preprocessor.ahk (it parsing .gitignore_pre and copies result to .gitignore)
 
 
 # examples for using preprocessor for .gitignore :
 
-after first start, edit .gitignore_RAW (not .gitignore)
+after first start, edit .gitignore_pre (not .gitignore)
 
 
 # ignore 10 digits (max you could config in the script):
