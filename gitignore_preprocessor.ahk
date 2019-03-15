@@ -189,7 +189,10 @@ prepareFirstLine_andBackup_gitignore(){
 ifNotExist_gitignore_pre(){
 	if(FileExist(".gitignore_pre"))
 		return
-	FileRead, content , .gitignore
+	if(FileExist(".gitignore"))
+		FileRead, content , .gitignore
+	else
+		content := "gitignore_backup"
 	FileAppend, % content "`n", .gitignore_pre
 	return content
 }
